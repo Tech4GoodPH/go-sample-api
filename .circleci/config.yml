@@ -10,7 +10,7 @@ jobs:
           command: |
             echo 'Running Unit tests'
             ls -al
-            apk add gcc
+            apk add gcc && apk add musl-dev
             go test -mod=vendor ./test
   test-lint:
     docker: 
