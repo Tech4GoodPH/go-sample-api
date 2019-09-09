@@ -1,0 +1,6 @@
+run:
+  modules-download-mode: vendor
+issues:
+  exclude:
+    - "not declared by package utf8"
+    - "unicode/utf8/utf8.go"
