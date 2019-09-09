@@ -20,7 +20,18 @@ jobs:
           name: Lint Test
           command: |
             echo 'Running Lint tests'
+            apk add bash
             ./bin/golangci-lint-v1.17.1 run -c config/.golangci.yml
+  test-lint2:
+      docker: 
+        - image: golangci/golangci-lint:v1.17.1 # the primary container, where your job's commands are run
+      steps:
+        - checkout # check out the code in the project directory
+        - run:
+            name: Lint Test 2
+            command: |
+              echo 'Running Lint tests 2'
+              /usr/bin/golangci-lint run -c config/.golangci.yml
   deploy: 
     docker:
       - image: alpine:3.10.2
@@ -29,11 +40,13 @@ jobs:
                         
 workflows:
   version: 2
-  build_and_test: # name of your workflow
+  test_build_deploy: # name of your workflow
     jobs:
       - test-unit
       - test-lint
+      - test-lint2
       - deploy:
           requires:
             - test-unit
             - test-lint
+            - test-lint2
