@@ -16,6 +16,11 @@ jobs:
       - run:
           name: printing hello
           command: echo 'hello'
+  build3: 
+    docker:
+      - image: alpine:3.10.2
+    steps:
+      - run: echo "Deploy to AWS [Not Yet Implemented]"
                         
 workflows:
   version: 2
@@ -23,3 +28,6 @@ workflows:
     jobs:
       - build1
       - build2
+      - build3:
+        requires:
+           - build1
