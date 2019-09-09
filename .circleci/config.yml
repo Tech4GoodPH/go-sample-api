@@ -2,51 +2,57 @@ version: 2.1
 jobs:
   test-unit:
     docker: 
-      - image: golang:1.12.6-alpine # the primary container, where your job's commands are run
+      - image: golang:1.12.6-alpine
     steps:
-      - checkout # check out the code in the project directory
+      - checkout
       - run:
           name: Unit Test
           command: |
             echo 'Running Unit tests'
             apk add gcc && apk add musl-dev
             go test -mod=vendor ./test
+  # test-lint-2:
+  #   docker: 
+  #     - image: golang:1.12.6-alpine # the primary container, where your job's commands are run
+  #   steps:
+  #     - checkout # check out the code in the project directory
+  #     - run:
+  #         name: Lint Test 2.0
+  #         command: |
+  #           echo 'Running Lint tests'
+  #           apk add bash
+  #           ./bin/golangci-lint-v1.17.1 run -c config/.golangci.yml
   test-lint:
-    docker: 
-      - image: golang:1.12.6-alpine # the primary container, where your job's commands are run
-    steps:
-      - checkout # check out the code in the project directory
-      - run:
-          name: Lint Test
-          command: |
-            echo 'Running Lint tests'
-            apk add bash
-            ./bin/golangci-lint-v1.17.1 run -c config/.golangci.yml
-  test-lint2:
       docker: 
-        - image: golangci/golangci-lint:v1.17.1 # the primary container, where your job's commands are run
+        - image: golangci/golangci-lint:v1.17.1
       steps:
-        - checkout # check out the code in the project directory
+        - checkout 
         - run:
-            name: Lint Test 2
+            name: Lint Test
             command: |
               echo 'Running Lint tests 2'
               /usr/bin/golangci-lint run -c config/.golangci.yml
+  build: 
+    docker:
+      - image: alpine:3.10.2
+    steps:
+      - run: echo "Building image [Not Yet Implemented]"
   deploy: 
     docker:
       - image: alpine:3.10.2
     steps:
-      - run: echo "Deploy to AWS [Not Yet Implemented]"
+      - run: echo "Deploying to AWS [Not Yet Implemented]"
                         
 workflows:
   version: 2
-  test_build_deploy: # name of your workflow
+  test_build_deploy:
     jobs:
       - test-unit
       - test-lint
-      - test-lint2
-      - deploy:
+      - build:
           requires:
             - test-unit
             - test-lint
-            - test-lint2
+      - deploy:
+          requires:
+            - build
