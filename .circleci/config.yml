@@ -9,7 +9,6 @@ jobs:
           name: Unit Test
           command: |
             echo 'Running Unit tests'
-            ls -al
             apk add gcc && apk add musl-dev
             go test -mod=vendor ./test
   test-lint:
@@ -19,7 +18,9 @@ jobs:
       - checkout # check out the code in the project directory
       - run:
           name: Lint Test
-          command: echo 'Running Lint tests'
+          command: |
+            echo 'Running Lint tests'
+            ./bin/golangci-lint-v1.17.1 run -c config/.golangci.yml
   deploy: 
     docker:
       - image: alpine:3.10.2
