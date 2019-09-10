@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	models "github.com/Tech4GoodPH/go-sample-api.git/models"
 )
 
 // GetReportOKCode is the HTTP code returned for type GetReportOK
@@ -19,6 +21,11 @@ const GetReportOKCode int = 200
 swagger:response getReportOK
 */
 type GetReportOK struct {
+
+	/*
+	  In: Body
+	*/
+	Payload models.Posts `json:"body,omitempty"`
 }
 
 // NewGetReportOK creates GetReportOK with default headers values
@@ -27,10 +34,28 @@ func NewGetReportOK() *GetReportOK {
 	return &GetReportOK{}
 }
 
+// WithPayload adds the payload to the get report o k response
+func (o *GetReportOK) WithPayload(payload models.Posts) *GetReportOK {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get report o k response
+func (o *GetReportOK) SetPayload(payload models.Posts) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *GetReportOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(200)
+	payload := o.Payload
+	if payload == nil {
+		// return empty array
+		payload = models.Posts{}
+	}
+
+	if err := producer.Produce(rw, payload); err != nil {
+		panic(err) // let the recovery middleware deal with this
+	}
 }

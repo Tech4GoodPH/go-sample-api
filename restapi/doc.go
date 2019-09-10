@@ -7,6 +7,7 @@ Basic API - HTTP and no Auth
 
     Schemes:
       http
+      https
     Host: virtserver.swaggerhub.com
     BasePath: /api/v1
     Version: 1.0.0

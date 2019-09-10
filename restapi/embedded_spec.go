@@ -25,6 +25,7 @@ func init() {
     "application/io.go-sample-api.v1+json"
   ],
   "schemes": [
+    "https",
     "http"
   ],
   "swagger": "2.0",
@@ -36,29 +37,6 @@ func init() {
   "host": "virtserver.swaggerhub.com",
   "basePath": "/api/v1",
   "paths": {
-    "/avgrates": {
-      "get": {
-        "description": "Get average rates filtered by location",
-        "tags": [
-          "Query Rates"
-        ],
-        "summary": "Get Rates, Averaged. This will return averaged rates from all reports.",
-        "parameters": [
-          {
-            "name": "location",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/Place"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/posts": {
       "get": {
         "description": "Get posts filtered by location",
@@ -77,7 +55,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
           }
         }
       }
@@ -100,7 +81,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
           }
         }
       }
@@ -123,7 +107,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
           }
         }
       }
@@ -146,7 +133,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
           }
         }
       }
@@ -169,7 +159,36 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
+          }
+        }
+      }
+    },
+    "/rates": {
+      "get": {
+        "description": "Get average rates filtered by location",
+        "tags": [
+          "Query Rates"
+        ],
+        "summary": "Get Rates. This will return rates from all reports.",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Place"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
           }
         }
       }
@@ -222,7 +241,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
           }
         }
       },
@@ -364,6 +386,33 @@ func init() {
         "photo": {
           "type": "string",
           "format": "binary"
+        },
+        "rate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Rate"
+          }
+        }
+      }
+    },
+    "Posts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Post"
+      }
+    },
+    "Rate": {
+      "type": "object",
+      "properties": {
+        "author": {
+          "$ref": "#/definitions/User"
+        },
+        "rate": {
+          "type": "integer"
+        },
+        "rate_type": {
+          "type": "string",
+          "pattern": "good|bad"
         }
       }
     },
@@ -389,6 +438,7 @@ func init() {
     "application/io.go-sample-api.v1+json"
   ],
   "schemes": [
+    "https",
     "http"
   ],
   "swagger": "2.0",
@@ -400,29 +450,6 @@ func init() {
   "host": "virtserver.swaggerhub.com",
   "basePath": "/api/v1",
   "paths": {
-    "/avgrates": {
-      "get": {
-        "description": "Get average rates filtered by location",
-        "tags": [
-          "Query Rates"
-        ],
-        "summary": "Get Rates, Averaged. This will return averaged rates from all reports.",
-        "parameters": [
-          {
-            "name": "location",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/Place"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/posts": {
       "get": {
         "description": "Get posts filtered by location",
@@ -441,7 +468,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
           }
         }
       }
@@ -464,7 +494,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
           }
         }
       }
@@ -487,7 +520,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
           }
         }
       }
@@ -510,7 +546,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
           }
         }
       }
@@ -533,7 +572,36 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
+          }
+        }
+      }
+    },
+    "/rates": {
+      "get": {
+        "description": "Get average rates filtered by location",
+        "tags": [
+          "Query Rates"
+        ],
+        "summary": "Get Rates. This will return rates from all reports.",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Place"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
           }
         }
       }
@@ -586,7 +654,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
           }
         }
       },
@@ -728,6 +799,33 @@ func init() {
         "photo": {
           "type": "string",
           "format": "binary"
+        },
+        "rate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Rate"
+          }
+        }
+      }
+    },
+    "Posts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Post"
+      }
+    },
+    "Rate": {
+      "type": "object",
+      "properties": {
+        "author": {
+          "$ref": "#/definitions/User"
+        },
+        "rate": {
+          "type": "integer"
+        },
+        "rate_type": {
+          "type": "string",
+          "pattern": "good|bad"
         }
       }
     },

@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	models "github.com/Tech4GoodPH/go-sample-api.git/models"
 )
 
 // GetPostsNewestOKCode is the HTTP code returned for type GetPostsNewestOK
@@ -19,6 +21,11 @@ const GetPostsNewestOKCode int = 200
 swagger:response getPostsNewestOK
 */
 type GetPostsNewestOK struct {
+
+	/*
+	  In: Body
+	*/
+	Payload models.Posts `json:"body,omitempty"`
 }
 
 // NewGetPostsNewestOK creates GetPostsNewestOK with default headers values
@@ -27,10 +34,28 @@ func NewGetPostsNewestOK() *GetPostsNewestOK {
 	return &GetPostsNewestOK{}
 }
 
+// WithPayload adds the payload to the get posts newest o k response
+func (o *GetPostsNewestOK) WithPayload(payload models.Posts) *GetPostsNewestOK {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get posts newest o k response
+func (o *GetPostsNewestOK) SetPayload(payload models.Posts) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *GetPostsNewestOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(200)
+	payload := o.Payload
+	if payload == nil {
+		// return empty array
+		payload = models.Posts{}
+	}
+
+	if err := producer.Produce(rw, payload); err != nil {
+		panic(err) // let the recovery middleware deal with this
+	}
 }

@@ -44,9 +44,6 @@ func NewGoSampleAPI(spec *loads.Document) *GoSampleAPI {
 		ReportDeleteReportHandler: report.DeleteReportHandlerFunc(func(params report.DeleteReportParams) middleware.Responder {
 			return middleware.NotImplemented("operation ReportDeleteReport has not yet been implemented")
 		}),
-		QueryRatesGetAvgratesHandler: query_rates.GetAvgratesHandlerFunc(func(params query_rates.GetAvgratesParams) middleware.Responder {
-			return middleware.NotImplemented("operation QueryRatesGetAvgrates has not yet been implemented")
-		}),
 		QueryPostsGetPostsHandler: query_posts.GetPostsHandlerFunc(func(params query_posts.GetPostsParams) middleware.Responder {
 			return middleware.NotImplemented("operation QueryPostsGetPosts has not yet been implemented")
 		}),
@@ -61,6 +58,9 @@ func NewGoSampleAPI(spec *loads.Document) *GoSampleAPI {
 		}),
 		QueryPostsGetPostsTidiestHandler: query_posts.GetPostsTidiestHandlerFunc(func(params query_posts.GetPostsTidiestParams) middleware.Responder {
 			return middleware.NotImplemented("operation QueryPostsGetPostsTidiest has not yet been implemented")
+		}),
+		QueryRatesGetRatesHandler: query_rates.GetRatesHandlerFunc(func(params query_rates.GetRatesParams) middleware.Responder {
+			return middleware.NotImplemented("operation QueryRatesGetRates has not yet been implemented")
 		}),
 		QueryRatesGetRatesIDHandler: query_rates.GetRatesIDHandlerFunc(func(params query_rates.GetRatesIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation QueryRatesGetRatesID has not yet been implemented")
@@ -107,8 +107,6 @@ type GoSampleAPI struct {
 
 	// ReportDeleteReportHandler sets the operation handler for the delete report operation
 	ReportDeleteReportHandler report.DeleteReportHandler
-	// QueryRatesGetAvgratesHandler sets the operation handler for the get avgrates operation
-	QueryRatesGetAvgratesHandler query_rates.GetAvgratesHandler
 	// QueryPostsGetPostsHandler sets the operation handler for the get posts operation
 	QueryPostsGetPostsHandler query_posts.GetPostsHandler
 	// QueryPostsGetPostsMessiestHandler sets the operation handler for the get posts messiest operation
@@ -119,6 +117,8 @@ type GoSampleAPI struct {
 	QueryPostsGetPostsNewestHandler query_posts.GetPostsNewestHandler
 	// QueryPostsGetPostsTidiestHandler sets the operation handler for the get posts tidiest operation
 	QueryPostsGetPostsTidiestHandler query_posts.GetPostsTidiestHandler
+	// QueryRatesGetRatesHandler sets the operation handler for the get rates operation
+	QueryRatesGetRatesHandler query_rates.GetRatesHandler
 	// QueryRatesGetRatesIDHandler sets the operation handler for the get rates ID operation
 	QueryRatesGetRatesIDHandler query_rates.GetRatesIDHandler
 	// ReportGetReportHandler sets the operation handler for the get report operation
@@ -194,10 +194,6 @@ func (o *GoSampleAPI) Validate() error {
 		unregistered = append(unregistered, "report.DeleteReportHandler")
 	}
 
-	if o.QueryRatesGetAvgratesHandler == nil {
-		unregistered = append(unregistered, "query_rates.GetAvgratesHandler")
-	}
-
 	if o.QueryPostsGetPostsHandler == nil {
 		unregistered = append(unregistered, "query_posts.GetPostsHandler")
 	}
@@ -216,6 +212,10 @@ func (o *GoSampleAPI) Validate() error {
 
 	if o.QueryPostsGetPostsTidiestHandler == nil {
 		unregistered = append(unregistered, "query_posts.GetPostsTidiestHandler")
+	}
+
+	if o.QueryRatesGetRatesHandler == nil {
+		unregistered = append(unregistered, "query_rates.GetRatesHandler")
 	}
 
 	if o.QueryRatesGetRatesIDHandler == nil {
@@ -340,11 +340,6 @@ func (o *GoSampleAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/avgrates"] = query_rates.NewGetAvgrates(o.context, o.QueryRatesGetAvgratesHandler)
-
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
 	o.handlers["GET"]["/posts"] = query_posts.NewGetPosts(o.context, o.QueryPostsGetPostsHandler)
 
 	if o.handlers["GET"] == nil {
@@ -366,6 +361,11 @@ func (o *GoSampleAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/posts/tidiest"] = query_posts.NewGetPostsTidiest(o.context, o.QueryPostsGetPostsTidiestHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rates"] = query_rates.NewGetRates(o.context, o.QueryRatesGetRatesHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

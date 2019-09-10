@@ -7,6 +7,7 @@ package models
 
 import (
 	"io"
+	"strconv"
 
 	strfmt "github.com/go-openapi/strfmt"
 
@@ -36,6 +37,9 @@ type Post struct {
 	// photo
 	// Format: binary
 	Photo io.ReadCloser `json:"photo,omitempty"`
+
+	// rate
+	Rate []*Rate `json:"rate"`
 }
 
 // Validate validates this post
@@ -51,6 +55,10 @@ func (m *Post) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateLocation(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateRate(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -109,6 +117,31 @@ func (m *Post) validateLocation(formats strfmt.Registry) error {
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *Post) validateRate(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Rate) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Rate); i++ {
+		if swag.IsZero(m.Rate[i]) { // not required
+			continue
+		}
+
+		if m.Rate[i] != nil {
+			if err := m.Rate[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("rate" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil
