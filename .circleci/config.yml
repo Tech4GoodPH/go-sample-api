@@ -34,22 +34,31 @@ jobs:
               /usr/bin/golangci-lint run -c config/.golangci.yml
   build: 
     docker:
-      - image: alpine:3.10.2
+      - image: docker:18.09.9-dind
     steps:
-      - run: echo "Building image [Not Yet Implemented]"
+      - checkout
+      - run: 
+          name: Build App
+          command: |
+            echo "Building application image"
+            docker login --username=$DOCKER_USER --password=$DOCKER_PASS
+            docker pull tech4goodph/bayanihan-basurahan-api:latest
+            docker build -t tech4goodph/bayanihan-basurahan-api:latest .
+            docker push tech4goodph/bayanihan-basurahan-api:latest
   deploy: 
     docker:
       - image: alpine:3.10.2
     steps:
       - checkout
-      - run: |
-          apk add openssh
-          pwd
-          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null /root/project/docker-compose.yaml root@206.189.38.16:/root
-          ssh -o StrictHostKeyChecking=no root@206.189.38.16 "docker-compose rm -f &&
-            docker-compose pull &&
-            docker-compose up --build -d"
-          docker ps -a
+      - run: 
+          name: Deploy App
+          command: |
+            echo "Deploying application"
+            apk add openssh
+            scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null /root/project/docker-compose.yaml root@206.189.38.16:/root
+            ssh -o StrictHostKeyChecking=no root@206.189.38.16 "docker-compose rm -f &&
+              docker-compose pull &&
+              docker-compose up --build -d"
 workflows:
   version: 2
   test_build_deploy:

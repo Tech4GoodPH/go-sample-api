@@ -1,6 +1,6 @@
 version: '3'
 services:
-  minio:
+  backend-api:
     container_name: go-sample-api
     image: tech4goodph/bayanihan-basurahan-api:latest
     ports:
