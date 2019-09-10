@@ -39,6 +39,8 @@ jobs:
       - checkout
       - run: 
           name: Build App
+          environment:
+            DOCKER_HOST: tcp://localhost:2375
           command: |
             echo "Building application image"
             docker login --username=$DOCKER_USER --password=$DOCKER_PASS
