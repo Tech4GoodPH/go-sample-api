@@ -41,7 +41,8 @@ jobs:
     docker:
       - image: alpine:3.10.2
     steps:
-      - run: echo "Deploying to AWS [Not Yet Implemented]"
+      - run: |
+          ssh root@206.189.38.16
                         
 workflows:
   version: 2
