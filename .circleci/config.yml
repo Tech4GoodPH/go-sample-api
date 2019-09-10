@@ -41,6 +41,7 @@ jobs:
     docker:
       - image: alpine:3.10.2
     steps:
+      - checkout
       - run: |
           apk add openssh
           pwd
