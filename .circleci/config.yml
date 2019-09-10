@@ -42,6 +42,7 @@ jobs:
       - image: alpine:3.10.2
     steps:
       - run: |
+          apk add openssh
           ssh root@206.189.38.16
                         
 workflows:
