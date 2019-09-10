@@ -37,6 +37,7 @@ jobs:
       - image: docker:18.09.9-git
     steps:
       - checkout
+      - setup_remote_docker
       - run: 
           name: Build App
           command: |
