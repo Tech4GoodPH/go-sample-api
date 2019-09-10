@@ -43,6 +43,7 @@ jobs:
           command: |
             echo "Building application image"
             docker login --username=$DOCKER_USER --password=$DOCKER_PASS
+            docker rm -f $(docker ps -a -q)
             docker pull tech4goodph/bayanihan-basurahan-api:latest
             docker build -t tech4goodph/bayanihan-basurahan-api:latest .
             docker push tech4goodph/bayanihan-basurahan-api:latest
