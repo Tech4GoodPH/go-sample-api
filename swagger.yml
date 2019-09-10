@@ -1,0 +1,243 @@
+---
+swagger: "2.0"
+info:
+  description: Basic API - HTTP and no Auth
+  title: go-sample-api
+  version: 1.0.0
+consumes:
+- application/io.go-sample-api.v1+json
+produces:
+- application/io.go-sample-api.v1+json
+schemes:
+- http
+paths:
+  /rates/{id}:
+    get:
+      summary: Get Rates, Raw
+      description: >-
+        Get rates filtered by location. Raw query command will yield all rates provided by the users.
+      tags: 
+        - Query Rates
+      parameters:
+        - name: location
+          in: body
+          schema:
+            $ref: "#/definitions/Place"
+        - name: id
+          in: path
+          type: integer
+          format: int64
+          required: true
+      responses:
+        '200':
+          description: OK
+  /avgrates:
+    get:
+      summary: Get Rates, Averaged. This will return averaged rates from all reports.
+      description: >-
+        Get average rates filtered by location
+      tags:
+        - Query Rates
+      parameters:
+        - name: location
+          in: body
+          schema:
+            $ref: "#/definitions/Place"
+      responses:
+        '200':
+          description: OK
+  /posts:
+    get:
+      summary: Get Posts
+      description: >-
+        Get posts filtered by location
+      tags:
+        - Query Posts
+      parameters:
+        - name: location
+          in: body
+          schema:
+            $ref: "#/definitions/Place"
+      responses:
+        '200':
+          description: OK
+  /posts/newest:
+    get:
+      summary: Get Newest Posts
+      description: >-
+        Get newest posts filtered by location
+      tags:
+        - Query Posts
+      parameters:
+        - name: location
+          in: body
+          schema:
+            $ref: "#/definitions/Place"
+      responses:
+        '200':
+          description: OK
+  /posts/tidiest:
+    get:
+      summary: Get Tidiest Posts
+      description: >-
+        Get tidiest posts filtered by location
+      tags:
+        - Query Posts
+      parameters:
+        - name: location
+          in: body
+          schema:
+            $ref: "#/definitions/Place"
+      responses:
+        '200':
+          description: OK
+  /posts/messiest:
+    get:
+      summary: Get Messiest Posts
+      description: >-
+        Get messiest posts filtered by location
+      tags:
+        - Query Posts
+      parameters:
+        - name: location
+          in: body
+          schema:
+            $ref: "#/definitions/Place"
+      responses:
+        '200':
+          description: OK
+  /posts/mostactive:
+    get:
+      summary: Get Most Active Posts
+      description: >-
+        Get most active posts filtered by location
+      tags:
+        - Query Posts
+      parameters:
+        - name: location
+          in: body
+          schema:
+            $ref: "#/definitions/Place"
+      responses:
+        '200':
+          description: OK
+  /report:
+    get:
+      summary: Get reports
+      description: >-
+        Get reports
+      tags:
+        - Report
+      parameters:
+        - name: location
+          in: body
+          schema:
+            $ref: "#/definitions/Place"
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Post a report
+      description: >-
+        Post a report
+      tags:
+        - Report
+      parameters:
+        - name: post
+          in: body
+          schema:
+            $ref: "#/definitions/Post"
+      responses:
+        '200':
+          description: OK
+    patch:
+      summary: Update a report
+      description: >-
+        Update a report
+      tags:
+        - Report
+      parameters:
+        - name: id
+          in: query
+          type: integer
+          format: int64
+        - name: post
+          in: body
+          schema:
+            $ref: "#/definitions/Post"
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete a report
+      description: >-
+        Delete a report
+      tags:
+        - Report
+      parameters:
+        - name: id
+          in: query
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+definitions:
+  Location:
+    type: object
+    properties:
+      place:
+        $ref: "#/definitions/Place"
+      coordinate:
+        $ref: "#/definitions/Coordinate"
+  Place:
+    type: object
+    properties:
+      is_in:
+        type: string
+      name:
+        type: string
+  Coordinate:
+    type: object
+    properties:
+      longitude: 
+        type: number
+        format: double
+      latitude:
+        type: number
+        format: double
+  Post:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      gid:
+        type: integer
+        format: int64
+      author:
+        $ref: "#/definitions/User"
+      photo:
+        type: string
+        format: binary
+      location:
+        $ref: "#/definitions/Location"
+      discussion_thread:
+        $ref: "#/definitions/DiscussionThread"
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      username:
+        type: string
+  DiscussionThread:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /api/v1
