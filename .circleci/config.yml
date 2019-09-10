@@ -46,8 +46,10 @@ jobs:
           apk add openssh
           pwd
           scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null /root/project/docker-compose.yaml root@206.189.38.16:/root
-          ssh -o StrictHostKeyChecking=no root@206.189.38.16 "docker-compose up"
-
+          ssh -o StrictHostKeyChecking=no root@206.189.38.16 "docker-compose rm -f &&
+            docker-compose pull &&
+            docker-compose up --build -d"
+          docker ps -a
 workflows:
   version: 2
   test_build_deploy:
