@@ -34,13 +34,11 @@ jobs:
               /usr/bin/golangci-lint run -c config/.golangci.yml
   build: 
     docker:
-      - image: docker:18.09.9-dind
+      - image: docker:18.09.9-git
     steps:
       - checkout
       - run: 
           name: Build App
-          environment:
-            DOCKER_HOST: tcp://localhost:2375
           command: |
             echo "Building application image"
             docker login --username=$DOCKER_USER --password=$DOCKER_PASS
