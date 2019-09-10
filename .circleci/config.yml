@@ -43,7 +43,7 @@ jobs:
     steps:
       - run: |
           apk add openssh
-          scp docker-compose.yaml root@206.189.38.16:/root
+          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null docker-compose.yaml root@206.189.38.16:/root
           ssh -o StrictHostKeyChecking=no root@206.189.38.16 "docker-compose up"
 
 workflows:
