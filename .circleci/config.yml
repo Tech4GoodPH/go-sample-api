@@ -43,7 +43,7 @@ jobs:
     steps:
       - run: |
           apk add openssh
-          ssh root@206.189.38.16
+          ssh -o StrictHostKeyChecking=no root@206.189.38.16 "echo hello"
                         
 workflows:
   version: 2
