@@ -10,7 +10,7 @@ import (
 
 // HomeMessage ...
 func HomeMessage() string {
-	return "Tech 4 Good !"
+	return "Tech 4 Good !!"
 }
 
 func homeLink(w http.ResponseWriter, r *http.Request) {
