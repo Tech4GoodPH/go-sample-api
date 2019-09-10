@@ -8,8 +8,8 @@ consumes:
 - application/io.go-sample-api.v1+json
 produces:
 - application/io.go-sample-api.v1+json
-schemes:
-- http
+# schemes:
+# - http
 paths:
   /rates/{id}:
     get:
@@ -31,9 +31,9 @@ paths:
       responses:
         '200':
           description: OK
-  /avgrates:
+  /rates:
     get:
-      summary: Get Rates, Averaged. This will return averaged rates from all reports.
+      summary: Get Rates. This will return rates from all reports.
       description: >-
         Get average rates filtered by location
       tags:
@@ -46,6 +46,8 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: "#/definitions/Posts"
   /posts:
     get:
       summary: Get Posts
@@ -61,6 +63,8 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: "#/definitions/Posts"
   /posts/newest:
     get:
       summary: Get Newest Posts
@@ -76,6 +80,8 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: "#/definitions/Posts"
   /posts/tidiest:
     get:
       summary: Get Tidiest Posts
@@ -91,6 +97,8 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: "#/definitions/Posts"
   /posts/messiest:
     get:
       summary: Get Messiest Posts
@@ -106,6 +114,8 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: "#/definitions/Posts"
   /posts/mostactive:
     get:
       summary: Get Most Active Posts
@@ -121,6 +131,8 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: "#/definitions/Posts"
   /report:
     get:
       summary: Get reports
@@ -136,6 +148,8 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: "#/definitions/Posts"
     post:
       summary: Post a report
       description: >-
@@ -206,6 +220,16 @@ definitions:
       latitude:
         type: number
         format: double
+  Rate:
+    type: object
+    properties:
+      author:
+        $ref: "#/definitions/User"
+      rate_type:
+        type: string
+        pattern: "good|bad"
+      rate:
+        type: integer      
   Post:
     type: object
     properties:
@@ -220,10 +244,18 @@ definitions:
       photo:
         type: string
         format: binary
+      rate:
+        type: array
+        items:
+          $ref: "#/definitions/Rate"
       location:
         $ref: "#/definitions/Location"
       discussion_thread:
         $ref: "#/definitions/DiscussionThread"
+  Posts:
+    type: array
+    items:
+      $ref: "#/definitions/Post"
   User:
     type: object
     properties:
@@ -240,4 +272,11 @@ definitions:
         format: int64
 # Added by API Auto Mocking Plugin
 host: virtserver.swaggerhub.com
+# basePath: /api/v1
+# Added by API Auto Mocking Plugin
+# basePath: /api/v1
+schemes:
+ - https
+ - http
+# Added by API Auto Mocking Plugin
 basePath: /api/v1
