@@ -43,8 +43,10 @@ jobs:
     steps:
       - run: |
           apk add openssh
-          ssh -o StrictHostKeyChecking=no root@206.189.38.16 "echo hello"
-                        
+          ssh -o StrictHostKeyChecking=no root@206.189.38.16 "docker-compose rm -f &&
+            docker-compose pull &&
+            docker-compose up --build -d"
+
 workflows:
   version: 2
   test_build_deploy:

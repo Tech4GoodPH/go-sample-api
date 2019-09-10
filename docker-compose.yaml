@@ -1,0 +1,7 @@
+version: '3'
+services:
+  minio:
+    container_name: go-sample-api
+    image: tech4goodph/bayanihan-basurahan-api:latest
+    ports:
+      - 8080:8080
