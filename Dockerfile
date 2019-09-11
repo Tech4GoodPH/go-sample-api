@@ -9,7 +9,7 @@ COPY . .
 
 RUN go mod tidy
 RUN go mod vendor
-RUN go build -o ./build -v .
+RUN go build -o ./build/go-sample-api -v .
 
 EXPOSE ${PORT}
 
