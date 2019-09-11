@@ -14,7 +14,7 @@ func TestSample(t *testing.T) {
 }
 
 func TestHomeMessage(t *testing.T) {
-	ExpectedMessage := "Tech 4 Good !!"
+	ExpectedMessage := "Tech 4 Good !!!"
 	if C.HomeMessage() != ExpectedMessage {
 		t.Errorf("Expected value of '%v', but got '%v' ", ExpectedMessage, C.HomeMessage())
 	}
