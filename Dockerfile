@@ -13,4 +13,4 @@ RUN go build -o ./build -v .
 
 EXPOSE ${PORT}
 
-CMD [ "./build/go-sample-api.git" ]
+CMD [ "./build/go-sample-api" ]

@@ -8,7 +8,7 @@ go-build:
 	@echo '======================================================='
 	go mod tidy
 	go mod vendor
-	go build -o ./build -v .
+	go build -o ./build/go-sample-api -v .
 	@echo 'Done.'
 
 go-run: go-build
