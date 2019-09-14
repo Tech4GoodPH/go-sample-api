@@ -8,4 +8,4 @@ Requirements:
 - Golang (1.13.0): https://golang.org/doc/install  
 
 
-## How to Develop App [TO FOLLOW]
+## How to Develop App [TO FOLLOW].
