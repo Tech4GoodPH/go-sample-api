@@ -15,7 +15,7 @@ import (
 )
 
 const maxUploadSize = 10 * 1024 * 1024 // 2 mb
-const uploadPath = "./uploads"
+const uploadPath = "C:/Temp"
 
 // HomeMessage ...
 func HomeMessage() string {
