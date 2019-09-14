@@ -102,14 +102,14 @@ func uploadFileHandler() http.HandlerFunc {
 func renderError(w http.ResponseWriter, message string, statusCode int) {
 	w.WriteHeader(http.StatusBadRequest)
 	if _, err := w.Write([]byte(message)); err != nil {
-		return
+		return nil
 	}
 }
 
 func randToken(len int) string {
 	b := make([]byte, len)
 	if _, err := rand.Read(b); err != nil {
-		return
+		return nil
 	}
 	return fmt.Sprintf("%x", b)
 }
