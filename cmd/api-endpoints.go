@@ -31,8 +31,8 @@ func StartServer() {
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/v1/message", homeLink)
-	router.HandleFunc("/upload", uploadFileHandler());
-	
+	router.HandleFunc("/upload", uploadFileHandler())
+
 	fmt.Println("Exposing API endpoints on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
@@ -91,8 +91,8 @@ func uploadFileHandler() http.HandlerFunc {
 			renderError(w, "CANT_WRITE_FILE", http.StatusInternalServerError)
 			return
 		}
-		err := w.Write([]byte("SUCCESS"))
-		if err != nil {
+
+		if _, err := w.Write([]byte("SUCCESS")); err != nil {
 			renderError(w, "CANT_WRITE_FILE_BYTES", http.StatusInternalServerError)
 			return
 		}
@@ -101,15 +101,14 @@ func uploadFileHandler() http.HandlerFunc {
 
 func renderError(w http.ResponseWriter, message string, statusCode int) {
 	w.WriteHeader(http.StatusBadRequest)
-	err := w.Write([]byte(message))
-	if err != nil {
+	if _, err := w.Write([]byte(message)); err != nil {
 	}
 }
 
 func randToken(len int) string {
 	b := make([]byte, len)
-	err := rand.Read(b)
-	if err != nil {
+	if _, err := rand.Read(b); err != nil {
+		
 	}
 	return fmt.Sprintf("%x", b)
 }
