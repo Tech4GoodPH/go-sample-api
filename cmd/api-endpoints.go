@@ -91,17 +91,25 @@ func uploadFileHandler() http.HandlerFunc {
 			renderError(w, "CANT_WRITE_FILE", http.StatusInternalServerError)
 			return
 		}
-		w.Write([]byte("SUCCESS"))
+		err := w.Write([]byte("SUCCESS"))
+		if err != nil {
+			renderError(w, "CANT_WRITE_FILE_BYTES", http.StatusInternalServerError)
+			return
+		}
 	})
 }
 
 func renderError(w http.ResponseWriter, message string, statusCode int) {
 	w.WriteHeader(http.StatusBadRequest)
-	w.Write([]byte(message))
+	err := w.Write([]byte(message))
+	if err != nil {
+	}
 }
 
 func randToken(len int) string {
 	b := make([]byte, len)
-	rand.Read(b)
+	err := rand.Read(b)
+	if err != nil {
+	}
 	return fmt.Sprintf("%x", b)
 }
