@@ -43,7 +43,11 @@ func uploadFileHandler() http.HandlerFunc {
 		// validate file size
 		r.Body = http.MaxBytesReader(w, r.Body, maxUploadSize)
 
-		r.ParseMultipartForm(0);
+		err := r.ParseMultipartForm(0);
+		if err != nil {
+			renderError(w, "MULTIFORM_CONTENT_ERROR", http.StatusBadRequest)
+			return
+		}
     	fmt.Println(r.FormValue("type"))
 		
 		// parse and validate file and post parameters
