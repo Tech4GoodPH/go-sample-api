@@ -32,7 +32,7 @@ jobs:
             command: |
               echo 'Running Lint tests 2'
               /usr/bin/golangci-lint run -c config/.golangci.yml
-  build: 
+  build:  
     docker:
       - image: docker:18.09.9-git
     steps:
@@ -67,9 +67,15 @@ workflows:
       - test-unit
       - test-lint
       - build:
+          filters:
+            branches:
+              only: master
           requires:
             - test-unit
             - test-lint
       - deploy:
           requires:
             - build
+          filters:
+            branches:
+              only: master
