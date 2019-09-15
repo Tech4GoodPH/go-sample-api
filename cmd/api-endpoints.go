@@ -14,7 +14,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-const maxUploadSize = 10 * 1024 * 1024 // 2 mb
+const maxUploadSize = 40 * 1024 * 1024 // 2 mb
 const uploadPath = "C:/Temp"
 
 // HomeMessage ...
@@ -39,15 +39,15 @@ func StartServer() {
 
 func uploadFileHandler() http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("uploadFileHandler")
 		// validate file size
 		r.Body = http.MaxBytesReader(w, r.Body, maxUploadSize)
-		if err := r.ParseMultipartForm(maxUploadSize); err != nil {
-			renderError(w, "FILE_TOO_BIG", http.StatusBadRequest)
-			return
-		}
 
+		r.ParseMultipartForm(0);
+    	fmt.Println(r.FormValue("type"))
+		
 		// parse and validate file and post parameters
-		fileType := r.PostFormValue("type")
+		fileType := r.FormValue("type")
 		file, _, err := r.FormFile("uploadFile")
 		if err != nil {
 			renderError(w, "INVALID_FILE", http.StatusBadRequest)
@@ -96,6 +96,9 @@ func uploadFileHandler() http.HandlerFunc {
 			renderError(w, "CANT_WRITE_FILE_BYTES", http.StatusInternalServerError)
 			return
 		}
+
+		// SAVE TO MongoDB with Metadata
+    	fmt.Println(r.FormValue("meta"))
 	})
 }
 
